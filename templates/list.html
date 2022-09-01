@@ -1,0 +1,17 @@
+<div class="list">
+    <div>
+        <h1>
+          <u style="color: rgb(0, 0, 0);"> MY TODO LIST </u>
+          <hr />
+        </h1>
+      </div>
+  {% for item in items %}
+    <div class = 'item'>
+  <h1>{{item.name}}</h1>
+  <h3>Deadline: {{item.deadline}}</h3>
+  <a href="{% url 'delete' item.id %}">Delete</a>
+  <a href="{% url 'update' item.id %}">Edit</a>
+  <hr />
+    </div>
+  {% endfor %}
+</div>
