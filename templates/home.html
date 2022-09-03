@@ -1,17 +1,15 @@
 {% extends 'bootstrap.html' %} {% block content %}
 
-<div class="containe" id="cont1">
+
+<div class="container" id="cont1">
   <div>
-  
-
-  <div>{% include 'list.html' %}</div>
+  {% include 'list.html' %}
   </div>
-
+  
   <div class="container" id="cont2">
   <div>
     <h2 style="color: white;"><u>Add Task</h2></u>
   </div>
-
   <div>
     <form method="POST" , action="">
       {% csrf_token%}
@@ -19,7 +17,6 @@
         <label for="">Task</label>
         {{form.name}}
       </div>
-
       <div class="form">
         <label for="">Deadline </label>
         {{form.deadline}}
@@ -29,4 +26,5 @@
   </div>
 </div>
 </div>
+
 {% endblock content%}

@@ -1,0 +1,17 @@
+{% extends 'bootstrap.html' %}
+
+{% block content %}
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
+
+<div>
+    <p>Already have an account? <a href="{% url 'login' %}"><u>Sign in</u></a></p>
+</div>
+
+
+{% endblock content %}
