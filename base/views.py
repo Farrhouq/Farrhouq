@@ -36,13 +36,10 @@ def register(request):
     context = {'form':form}
     return render(request, 'register.html', context)
 
-    
 
 def logoutUser(request):
     logout(request)
     return redirect('login')
-
-
 
 
 def home_page(request):
@@ -61,7 +58,6 @@ def home_page(request):
             form.save()
     context =  {'items':items, 'form':form}
     return render(request, 'home.html', context)
-
 
 
 def delete(request, pk):
