@@ -1,0 +1,16 @@
+<h4><u>My Rooms</u></h4>
+    <ul>
+      {% for room in rooms %}
+      <li><h3><a href="">{{room}}</a></h3></li>
+      <small><a href="{% url 'deleteRoom' room.id %}">Delete</a></small>
+      {% endfor %}
+    </ul>
+<div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form2}}
+        <input type="submit" value="Create Room">
+        <input type="hidden" name="form_type" value="formTwo">
+    </form>
+
+</div>

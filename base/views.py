@@ -1,5 +1,7 @@
 from contextlib import redirect_stderr
+from multiprocessing import context
 from pickletools import read_uint1
+from unicodedata import name
 from django.shortcuts import render,redirect
 from . import models
 from . import forms
@@ -44,23 +46,35 @@ def logoutUser(request):
 
 def home_page(request):
     items = request.user.item_set.all()
+    rooms = request.user.room_set.all()
     form = forms.AddItem()
+    form2 = forms.RoomForm()
     if request.method == 'POST':
-        user = request.user
-        name = request.POST.get('name')
-        deadline = request.POST.get('deadline')
-        models.Item.objects.create(
-            name = name,
-            deadline = deadline,
-            owner = user,
-        )
-        if form.is_valid():
-            form.save()
-    context =  {'items':items, 'form':form}
+        if request.POST.get("form_type") == 'formOne':
+           user = request.user
+           name = request.POST.get('name')
+           deadline = request.POST.get('deadline')
+           models.Item.objects.create(
+               name = name,
+               deadline = deadline,
+               owner = user,
+           )
+           if form.is_valid():
+               form.save()
+        elif request.POST.get("form_type") == 'formTwo':
+            form2 = forms.RoomForm
+            if request.method == 'POST':
+                room_name = request.POST.get('name')
+                models.Room.objects.create(name=room_name,
+                    user = request.user,
+                 )
+                if form.is_valid():
+                    form.save()
+    context =  {'items':items, 'form':form, 'rooms':rooms, 'form2':form2}
     return render(request, 'home.html', context)
 
 
-def delete(request, pk):
+def delete_item(request, pk):
     item = models.Item.objects.get(id=pk)
     item.delete()
     return redirect('home')
@@ -79,3 +93,25 @@ def update_item(request, pk):
     items = models.Item.objects.all()
     context =  {'items':items, 'form':form}
     return render(request, 'update_item.html', context)
+
+def createRoom(request):
+    form = forms.RoomForm
+    if request.method == 'POST':
+        room_name = request.POST.get('name')
+        models.Room.objects.create(name=room_name, user = request.host)
+        if form.is_valid():
+            form.save()
+    context = {'form':form}
+    return render(request, 'rooms.html', context)
+
+
+def deleteRoom(request, pk):
+    room = models.Room.objects.get(id=pk)
+    room.delete()
+    return redirect('home')
+
+def updateRoom(request, pk):
+    room = models.Room.objects.get(id=pk)
+    context = {'room':room}
+    return render(request, 'updateRoom.html', context)
+

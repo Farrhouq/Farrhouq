@@ -2,10 +2,16 @@
 
 
 <div class="container" id="cont1">
+
+  <div>
+    {% include 'rooms.html' %}
+  </div>
+
   <div>
   {% include 'list.html' %}
   </div>
   
+
   <div class="container" id="cont2">
   <div>
     <h2 style="color: white;"><u>Add Task</h2></u>
@@ -21,10 +27,12 @@
         <label for="">Deadline </label>
         {{form.deadline}}
       </div>
-      <input type="submit" value="Submit"/>
+      <input type="submit" value="Add Task"/>
+      <input type="hidden" name="form_type" value="formOne">
     </form>
   </div>
 </div>
 </div>
+
 
 {% endblock content%}
