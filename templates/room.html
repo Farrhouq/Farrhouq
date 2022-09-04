@@ -1,0 +1,23 @@
+{% extends 'bootstrap.html' %}
+
+{% block content %}
+
+<div>
+<h1>{{room}}</h1>
+</div>
+
+<div>
+{%for item in room_items%}
+<h3>{{item}}</h3>
+<a href="{% url 'deleteRoomItem' item.id %}"><small>Delete</small></a>
+{%endfor%}
+</div>
+
+<div>
+    <form action="" method="POST">
+    {% csrf_token%}
+    {{form}}
+    <input type="submit" value="Add Item">
+    </form>
+</div>
+{% endblock content %}

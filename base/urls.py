@@ -9,5 +9,7 @@ urlpatterns = [
     path('update/<str:pk>', views.update_item, name='update'),
     path('logoutUser', views.logoutUser, name='logoutUser'),
     path('deleteRoom/<str:pk>', views.deleteRoom, name='deleteRoom'),
+    path('room/<str:pk>', views.room, name='room'),
+    path('deleteRoomItem/<str:pk>', views.deleteRoomItem, name='deleteRoomItem' ),
 ]
 

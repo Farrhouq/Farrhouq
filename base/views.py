@@ -58,19 +58,24 @@ def home_page(request):
                name = name,
                deadline = deadline,
                owner = user,
-           )
+            )
            if form.is_valid():
                form.save()
         elif request.POST.get("form_type") == 'formTwo':
             form2 = forms.RoomForm
             if request.method == 'POST':
                 room_name = request.POST.get('name')
-                models.Room.objects.create(name=room_name,
+                models.Room.objects.create(
+                    name=room_name,
                     user = request.user,
-                 )
+                )
                 if form.is_valid():
                     form.save()
-    context =  {'items':items, 'form':form, 'rooms':rooms, 'form2':form2}
+    context =  {'items':items, 
+        'form':form,
+        'rooms':rooms,
+        'form2':form2,
+        }
     return render(request, 'home.html', context)
 
 
@@ -98,7 +103,10 @@ def createRoom(request):
     form = forms.RoomForm
     if request.method == 'POST':
         room_name = request.POST.get('name')
-        models.Room.objects.create(name=room_name, user = request.host)
+        models.Room.objects.create(
+            name=room_name,
+            user = request.host,
+            )
         if form.is_valid():
             form.save()
     context = {'form':form}
@@ -115,3 +123,28 @@ def updateRoom(request, pk):
     context = {'room':room}
     return render(request, 'updateRoom.html', context)
 
+def room(request, pk):
+    room = models.Room.objects.get(id=pk)
+    room_items = room.roomitem_set.all()
+    form = forms.RoomItemForm()
+    if request.method == 'POST':
+        room_item_name = request.POST.get('name')
+        models.RoomItem.objects.create(
+            name = room_item_name,
+            room = room,
+        )
+        if form.is_valid():
+            form.save()
+    context = {
+        'room':room,
+        'room_items':room_items,
+        'form':form,
+    }
+    return render(request, 'room.html', context)
+    
+
+def deleteRoomItem(request, pk):
+    room_item = models.RoomItem.objects.get(id=pk)
+    room = room_item.room
+    room_item.delete()
+    return redirect('room', room.id)

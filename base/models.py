@@ -13,6 +13,7 @@ class Item(models.Model):
     def __str__(self) -> str:
         return self.name 
 
+
 class Room(models.Model):
     name = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -20,3 +21,11 @@ class Room(models.Model):
     def __str__(self) -> str:
         return self.name
     
+
+class RoomItem(models.Model):
+    name = models.CharField(max_length=200)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name
+        
