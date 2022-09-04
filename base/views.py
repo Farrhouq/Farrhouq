@@ -16,12 +16,10 @@ def loginUser(request):
     form = forms.UserForm()
     if request.method == 'POST':
         name = request.POST.get('username')
-        password = request.POST.get('password')
         user = User.objects.get(username=name)
         if user.username != '':
             login(request, user)
             return redirect('home')
-        
     context = {'form':form, }
     return render(request, 'login.html', context)
 
@@ -62,7 +60,7 @@ def home_page(request):
            if form.is_valid():
                form.save()
         elif request.POST.get("form_type") == 'formTwo':
-            form2 = forms.RoomForm
+            form2 = forms.RoomForm()
             if request.method == 'POST':
                 room_name = request.POST.get('name')
                 models.Room.objects.create(
@@ -77,6 +75,20 @@ def home_page(request):
         'form2':form2,
         }
     return render(request, 'home.html', context)
+
+
+def addItem(request, pk):
+    item = models.RoomItem.objects.get(id=pk)
+    room = item.room
+    user = request.user
+    name = item
+    deadline = 'One Month'
+    models.Item.objects.create(
+        name = name,
+        deadline = deadline,
+        owner = user,
+        )
+    return redirect('room', room.id)
 
 
 def delete_item(request, pk):
@@ -98,6 +110,7 @@ def update_item(request, pk):
     items = models.Item.objects.all()
     context =  {'items':items, 'form':form}
     return render(request, 'update_item.html', context)
+
 
 def createRoom(request):
     form = forms.RoomForm

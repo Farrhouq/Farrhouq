@@ -8,7 +8,7 @@
 
 <div>
 {%for item in room_items%}
-<h3>{{item}}</h3>
+<h3><a href="{% url 'createItem' item.id %}">{{item}}</a></h3>
 <a href="{% url 'deleteRoomItem' item.id %}"><small>Delete</small></a>
 {%endfor%}
 </div>
