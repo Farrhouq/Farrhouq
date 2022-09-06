@@ -161,3 +161,4 @@ def deleteRoomItem(request, pk):
     room = room_item.room
     room_item.delete()
     return redirect('room', room.id)
+    
