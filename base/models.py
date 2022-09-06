@@ -9,6 +9,7 @@ class Item(models.Model):
     deadline = models.CharField(max_length=30)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True )
     created = models.DateTimeField(auto_now=True)
+    make_priority = models.BooleanField(default=False)
      
     def __str__(self) -> str:
         return self.name 
