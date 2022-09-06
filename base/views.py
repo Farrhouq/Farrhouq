@@ -10,8 +10,11 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
 
+
 # Create your views here.
 
+
+auto_deadline = 'One Month'
 def loginUser(request):
     form = forms.UserForm()
     if request.method == 'POST':
@@ -82,7 +85,7 @@ def addItem(request, pk):
     room = item.room
     user = request.user
     name = item
-    deadline = 'One Month'
+    deadline = auto_deadline
     models.Item.objects.create(
         name = name,
         deadline = deadline,
@@ -140,6 +143,7 @@ def room(request, pk):
     room = models.Room.objects.get(id=pk)
     room_items = room.roomitem_set.all()
     form = forms.RoomItemForm()
+    
     if request.method == 'POST':
         room_item_name = request.POST.get('name')
         models.RoomItem.objects.create(
@@ -152,6 +156,7 @@ def room(request, pk):
         'room':room,
         'room_items':room_items,
         'form':form,
+        'auto_deadline': auto_deadline,
     }
     return render(request, 'room.html', context)
     
@@ -162,3 +167,10 @@ def deleteRoomItem(request, pk):
     room_item.delete()
     return redirect('room', room.id)
     
+
+def change(request, pk):
+    if request.method == 'POST':
+        global auto_deadline 
+        auto_deadline =  request.POST.get('auto_deadline')
+        return redirect('room', pk)
+    return render(request, 'change.html', )

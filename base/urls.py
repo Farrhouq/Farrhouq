@@ -1,3 +1,4 @@
+from typing import ValuesView
 from django.urls import path
 from . import views
 
@@ -11,6 +12,7 @@ urlpatterns = [
     path('deleteRoom/<str:pk>', views.deleteRoom, name='deleteRoom'),
     path('room/<str:pk>', views.room, name='room'),
     path('deleteRoomItem/<str:pk>', views.deleteRoomItem, name='deleteRoomItem'),
-    path('createItem/<str:pk>', views.addItem, name='createItem')
+    path('createItem/<str:pk>', views.addItem, name='createItem'),
+    path('change/<str:pk>', views.change, name='change'),
 ]
 

@@ -2,22 +2,29 @@
 
 {% block content %}
 
+<div class="container">
 <div>
-<h1>{{room}}</h1>
+<h1 style="color: blue;"><u>{{room}}</u></h1>
+</div>
+<div>
+    <p> Click on an item to add as an item in your ToDo list (Deadline: <a href="{% url 'change' room.id %}">{{auto_deadline}}</a>) </p>
 </div>
 
 <div>
 {%for item in room_items%}
-<h3><a href="{% url 'createItem' item.id %}">{{item}}</a></h3>
-<a href="{% url 'deleteRoomItem' item.id %}"><small>Delete</small></a>
+<div class="room-item">
+<h1><a href="{% url 'createItem' item.id %}">{{item}}</a></h1>
+<h5><a href="{% url 'deleteRoomItem' item.id %}">Delete</a></h5>
+</div>
 {%endfor%}
 </div>
 
-<div>
+<div class="add-item-form">
     <form action="" method="POST">
     {% csrf_token%}
     {{form}}
     <input type="submit" value="Add Item">
     </form>
+</div>
 </div>
 {% endblock content %}
