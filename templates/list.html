@@ -1,11 +1,22 @@
+
+<h2>My List</h2>
 <div class="list">
+    {% if pr != 0 %}
     {% for item in items %}
+    {% if item.make_priority == False %}
     <div class = 'item'>
   <h1>{{item.name}}</h1>
   <h3>Deadline: {{item.deadline}}</h3>
-  <a href="{% url 'delete' item.id %}">Delete</a>
+  <a href="{% url 'delete' item.id %}">Completed</a>
   <a href="{% url 'update' item.id %}">Edit</a>
-  <hr/>
+  <p><a href="{% url 'make_priority' item.id %}">Make Priority</a></p>
     </div>
+    {% endif %}
   {% endfor %}
+
+
+    {% else %}
+    <p>You have no items in your list. Check your Priorities on the right. </p>
+
+  {% endif %}
 </div>

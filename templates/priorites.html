@@ -1,0 +1,15 @@
+
+<h3>Your Priorities</h3>
+<div class="list">
+{% for item in items %}
+{% if item.make_priority == True %}
+<div class = 'item'>
+  <h1>{{item.name}}</h1>
+  <h3>Deadline: {{item.deadline}}</h3>
+  <a href="{% url 'delete' item.id %}">Completed</a>
+  <a href="{% url 'update' item.id %}">Edit</a>
+    </div>
+
+{% endif %}
+{% endfor %}
+</div>

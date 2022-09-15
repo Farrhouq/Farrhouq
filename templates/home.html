@@ -10,29 +10,11 @@
   <div>
   {% include 'list.html' %}
   </div>
-  
 
-  <div class="container" id="cont2">
   <div>
-    <h2 style="color: white;"><u>Add Task</h2></u>
+    {% include 'priorites.html' %}
   </div>
-  <div>
-    <form method="POST" , action="">
-      {% csrf_token%}
-      <div class="form">
-        <label for="">Task</label>
-        {{form.name}}
-      </div>
-      <div class="form">
-        <label for="">Deadline </label>
-        {{form.deadline}}
-      </div>
-      <input type="submit" value="Add Task"/>
-      <input type="hidden" name="form_type" value="formOne">
-    </form>
-  </div>
-</div>
-</div>
+ 
 
-
+</div>
 {% endblock content%}

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class AddItem(ModelForm):
     class Meta:
         model = Item
-        exclude = ['owner']
+        exclude = ['owner', 'make_priority']
 
 class UserForm(ModelForm):
     class Meta:

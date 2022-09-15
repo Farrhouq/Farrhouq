@@ -6,28 +6,41 @@ from django.shortcuts import render,redirect
 from . import models
 from . import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 
 
 # Create your views here.
 
-
 auto_deadline = 'One Month'
+
 def loginUser(request):
+    page = 'login'
+    if request.user.is_authenticated:
+        return redirect('home')
+
     form = forms.UserForm()
     if request.method == 'POST':
         name = request.POST.get('username')
-        user = User.objects.get(username=name)
-        if user.username != '':
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(username=name)
+        except:
+            return redirect('register')
+        
+        in_user = authenticate(username=name, password=password)
+        if in_user != None:
             login(request, user)
             return redirect('home')
-    context = {'form':form, }
+        else:
+            return redirect('register')
+    context = {'form':form, 'page':page}
     return render(request, 'login.html', context)
 
 
 def register(request):
+    page = 'register'
     form = UserCreationForm()
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -36,7 +49,7 @@ def register(request):
             user.save()
             login(request, user)
             return redirect('home')
-    context = {'form':form}
+    context = {'form':form, 'page':page}
     return render(request, 'register.html', context)
 
 
@@ -47,37 +60,43 @@ def logoutUser(request):
 
 def home_page(request):
     items = request.user.item_set.all()
+    items2 = [item for item in items if item.make_priority == False]
+    pr = len(items2)
     rooms = request.user.room_set.all()
     form = forms.AddItem()
-    form2 = forms.RoomForm()
     if request.method == 'POST':
-        if request.POST.get("form_type") == 'formOne':
-           user = request.user
-           name = request.POST.get('name')
-           deadline = request.POST.get('deadline')
-           models.Item.objects.create(
-               name = name,
-               deadline = deadline,
-               owner = user,
-            )
-           if form.is_valid():
-               form.save()
-        elif request.POST.get("form_type") == 'formTwo':
-            form2 = forms.RoomForm()
-            if request.method == 'POST':
-                room_name = request.POST.get('name')
-                models.Room.objects.create(
-                    name=room_name,
-                    user = request.user,
-                )
-                if form.is_valid():
-                    form.save()
+        user = request.user
+        name = request.POST.get('name')
+        deadline = request.POST.get('deadline')
+        models.Item.objects.create(
+            name = name,
+            deadline = deadline,
+            owner = user,
+         )
+        if form.is_valid():
+            form.save()
     context =  {'items':items, 
         'form':form,
         'rooms':rooms,
-        'form2':form2,
+        'items2': items2,
+        'pr':pr
         }
     return render(request, 'home.html', context)
+
+
+def add(request):
+    form2 = forms.AddItem()
+    if request.method == 'POST':
+        item_name = request.POST.get('name')
+        deadline = request.POST.get('deadline')
+        models.Item.objects.create(
+            name=item_name,
+            deadline = deadline,
+            owner = request.user
+        )
+        return redirect('home')
+    context = {'form':form2}
+    return render(request, 'custom.html', context)
 
 
 def addItem(request, pk):
@@ -139,11 +158,11 @@ def updateRoom(request, pk):
     context = {'room':room}
     return render(request, 'updateRoom.html', context)
 
+
 def room(request, pk):
     room = models.Room.objects.get(id=pk)
     room_items = room.roomitem_set.all()
     form = forms.RoomItemForm()
-    
     if request.method == 'POST':
         room_item_name = request.POST.get('name')
         models.RoomItem.objects.create(
@@ -174,3 +193,19 @@ def change(request, pk):
         auto_deadline =  request.POST.get('auto_deadline')
         return redirect('room', pk)
     return render(request, 'change.html', )
+
+
+def make_priority(request, pk):
+    item = models.Item.objects.get(id=pk)
+    deadline = item.deadline
+    name = item.name
+    owner = item.owner
+    item.delete()
+    models.Item.objects.create(
+        name = name,
+        deadline = deadline,
+        owner = owner,
+        make_priority = True
+    )
+    return redirect('home')
+    

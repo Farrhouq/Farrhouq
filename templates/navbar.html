@@ -13,7 +13,11 @@
           {% endif %}
           {% if not request.user.is_authenticated %}
           <li class="nav-item">
+            {% if page == 'register' %}
             <a class="nav-link" href="{% url 'login' %}">Login</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+            {% endif %}
           </li>
           {% else %}
           <li class="nav-item">
