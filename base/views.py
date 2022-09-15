@@ -63,15 +63,13 @@ def home_page(request):
     items2 = [item for item in items if item.make_priority == False]
     pr = len(items2)
     rooms = request.user.room_set.all()
-    form = forms.AddItem()
+    form = forms.RoomForm()
     if request.method == 'POST':
         user = request.user
         name = request.POST.get('name')
-        deadline = request.POST.get('deadline')
-        models.Item.objects.create(
+        models.Room.objects.create(
             name = name,
-            deadline = deadline,
-            owner = user,
+            user = user,
          )
         if form.is_valid():
             form.save()
