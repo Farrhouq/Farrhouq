@@ -1,17 +1,15 @@
-{% extends 'bootstrap.html' %}
+{% extends 'bootstrap.html' %} {% block content %} {% load crispy_forms_tags %}
 
-{% block content %}
-
-
-<form action="" method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Submit">
-</form>
-
-<div>
-    <p>Already have an account? <a href="{% url 'login' %}"><u>Sign in</u></a></p>
+<div
+  class="container"
+  style="width: 40%; margin-top: 5%; background: aqua; padding: 1.5rem"
+>
+  <form action="" method="POST">
+    {% csrf_token %} {{form|crispy}}
+    <p>
+      Already have an account? <a href="{% url 'login' %}"><u>Sign in</u></a>
+    </p>
+    <input type="submit" class="btn btn-danger" value="Submit" />
+  </form>
 </div>
-
-
 {% endblock content %}

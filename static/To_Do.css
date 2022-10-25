@@ -1,0 +1,112 @@
+body {
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+          background-color: chartreuse;
+      }
+
+      .main {
+        height: 50px;
+        width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: blue;
+        border-radius: 6px;
+        position: absolute;
+        top: 30%;
+        left: 30%;
+      }
+
+      .main input {
+        height: 35px;
+        width: 95%;
+        border-radius: 5px;
+        font-size: larger;
+      }
+
+      .add {
+        background-color: aqua;
+        width: 70px;
+        height: 50px;
+        position: absolute;
+        left: 53%;
+        top: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid blue;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+
+      .add:hover {
+        background-color: white;
+      }
+
+      .item {
+        background-color: aqua;
+        height: 70px;
+        width: 500px;
+        margin: 10px 0;
+        display: flex;
+        flex-direction: row;
+        padding: 1px;
+        border: 5px double blue;
+        border-radius: 10px;
+      }
+
+      .items {
+        display: flex;
+        flex-direction: column;
+        margin-top: 15%;
+        margin-left: 30%;
+      }
+
+      .del {
+        background-color: red;
+        color: white;
+        height: 40px;
+        width: 150px;
+        margin: 12px;
+        z-index: 1;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid blue;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .del:hover {
+        color: black;
+      }
+
+      .done {
+        background-color: white;
+        height: 40px;
+        width: 150px;
+        margin: 12px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid blue;
+        color: black;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .done:hover {
+        color: blue;
+      }
+
+      .new_p {
+        color: rgb(0, 0, 0);
+        width: 700px;
+        margin: 10px;
+      }
+
+      .big {
+       display: flex;
+       flex-direction: column;
+      }
